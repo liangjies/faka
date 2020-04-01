@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TAdminUserDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TAdminUser" id="TAdminUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="secret" column="secret" jdbcType="VARCHAR"/>
+        <result property="updatetime" column="updatetime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByEmail" resultMap="TAdminUserMap">
+        select
+          id, email, password, secret, updatetime
+        from faka.t_admin_user
+        where email = #{email}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TAdminUserMap">
+        select
+          id, email, password, secret, updatetime
+        from faka.t_admin_user
+        where id = #{id}
+    </select>
+
+    <!--验证密码正确-->
+    <select id="validPass" resultType="java.lang.Integer" parameterType="string">
+        select count(1)
+        from faka.t_admin_user
+        where password = #{password}
+    </select>
+
+    <!--修改密码-->
+    <update id="updatePass">
+        update faka.t_admin_user
+        <set>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+        </set>
+        where id = 1
+    </update>
+
+</mapper>

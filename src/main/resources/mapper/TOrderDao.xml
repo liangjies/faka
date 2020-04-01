@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TOrderDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TOrder" id="TOrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderid" jdbcType="VARCHAR"/>
+        <result property="userid" column="userid" jdbcType="INTEGER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="qq" column="qq" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="productname" column="productname" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+        <result property="money" column="money" jdbcType="NUMERIC"/>
+        <result property="chapwd" column="chapwd" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="addtime" column="addtime" jdbcType="INTEGER"/>
+        <result property="paytime" column="paytime" jdbcType="INTEGER"/>
+        <result property="tradeid" column="tradeid" jdbcType="VARCHAR"/>
+        <result property="paymethod" column="paymethod" jdbcType="VARCHAR"/>
+        <result property="paymoney" column="paymoney" jdbcType="NUMERIC"/>
+        <result property="kami" column="kami" jdbcType="VARCHAR"/>
+        <result property="configure1" column="configure1" jdbcType="VARCHAR"/>
+        <result property="addons" column="addons" jdbcType="VARCHAR"/>
+        <result property="isdelete" column="isdelete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TOrderMap">
+        select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TOrderMap">
+        select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TOrderMap">
+        select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and orderid = #{orderid}
+            </if>
+            <if test="userid != null">
+                and userid = #{userid}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="productname != null and productname != ''">
+                and productname = #{productname}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="number != null">
+                and number = #{number}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="chapwd != null and chapwd != ''">
+                and chapwd = #{chapwd}
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip = #{ip}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="addtime != null">
+                and addtime = #{addtime}
+            </if>
+            <if test="paytime != null">
+                and paytime = #{paytime}
+            </if>
+            <if test="tradeid != null and tradeid != ''">
+                and tradeid = #{tradeid}
+            </if>
+            <if test="paymethod != null and paymethod != ''">
+                and paymethod = #{paymethod}
+            </if>
+            <if test="paymoney != null">
+                and paymoney = #{paymoney}
+            </if>
+            <if test="kami != null and kami != ''">
+                and kami = #{kami}
+            </if>
+            <if test="configure1 != null and configure1 != ''">
+                and configure1 = #{configure1}
+            </if>
+            <if test="addons != null and addons != ''">
+                and addons = #{addons}
+            </if>
+            <if test="isdelete != null">
+                and isdelete = #{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有数据-->
+    <select id="queryAllData" resultType="cn.liangjies.faka.entity.TOrder">
+        select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+    </select>
+
+    <!--根据rderid查询数据-->
+    <select id="queryByOrderid" resultType="cn.liangjies.faka.entity.TOrder">
+        select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+        where orderid=#{orderid}
+    </select>
+    <select id="queryAllOrderid" resultType="cn.liangjies.faka.entity.TOrder">
+        select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+        where orderid=#{orderid}
+    </select>
+    <select id="queryByContact" resultType="cn.liangjies.faka.entity.TOrder">
+                select
+          id, orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete
+        from faka.t_order
+        where qq=#{qq} and chapwd=#{pwd}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_order(orderid, userid, email, qq, pid, productname, price, number, money, chapwd, ip, status, addtime, paytime, tradeid, paymethod, paymoney, kami, configure1, addons, isdelete)
+        values (#{orderid}, #{userid}, #{email}, #{qq}, #{pid}, #{productname}, #{price}, #{number}, #{money}, #{chapwd}, #{ip}, #{status}, #{addtime}, #{paytime}, #{tradeid}, #{paymethod}, #{paymoney}, #{kami}, #{configure1}, #{addons}, #{isdelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_order
+        <set>
+            <if test="orderid != null and orderid != ''">
+                orderid = #{orderid},
+            </if>
+            <if test="userid != null">
+                userid = #{userid},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="productname != null and productname != ''">
+                productname = #{productname},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="chapwd != null and chapwd != ''">
+                chapwd = #{chapwd},
+            </if>
+            <if test="ip != null and ip != ''">
+                ip = #{ip},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime},
+            </if>
+            <if test="paytime != null">
+                paytime = #{paytime},
+            </if>
+            <if test="tradeid != null and tradeid != ''">
+                tradeid = #{tradeid},
+            </if>
+            <if test="paymethod != null and paymethod != ''">
+                paymethod = #{paymethod},
+            </if>
+            <if test="paymoney != null">
+                paymoney = #{paymoney},
+            </if>
+            <if test="kami != null and kami != ''">
+                kami = #{kami},
+            </if>
+            <if test="configure1 != null and configure1 != ''">
+                configure1 = #{configure1},
+            </if>
+            <if test="addons != null and addons != ''">
+                addons = #{addons},
+            </if>
+            <if test="isdelete != null">
+                isdelete = #{isdelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from faka.t_order where id = #{id}
+    </delete>
+
+</mapper>

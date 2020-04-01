@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TUserDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TUser" id="TUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="groupid" column="groupid" jdbcType="INTEGER"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="qq" column="qq" jdbcType="VARCHAR"/>
+        <result property="mobilephone" column="mobilephone" jdbcType="VARCHAR"/>
+        <result property="money" column="money" jdbcType="NUMERIC"/>
+        <result property="integral" column="integral" jdbcType="INTEGER"/>
+        <result property="tag" column="tag" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createtime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TUserMap">
+        select
+          id, groupid, nickname, password, email, qq, mobilephone, money, integral, tag, createtime
+        from faka.t_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TUserMap">
+        select
+          id, groupid, nickname, password, email, qq, mobilephone, money, integral, tag, createtime
+        from faka.t_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TUserMap">
+        select
+          id, groupid, nickname, password, email, qq, mobilephone, money, integral, tag, createtime
+        from faka.t_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="groupid != null">
+                and groupid = #{groupid}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                and nickname = #{nickname}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="mobilephone != null and mobilephone != ''">
+                and mobilephone = #{mobilephone}
+            </if>
+            <if test="money != null">
+                and money = #{money}
+            </if>
+            <if test="integral != null">
+                and integral = #{integral}
+            </if>
+            <if test="tag != null and tag != ''">
+                and tag = #{tag}
+            </if>
+            <if test="createtime != null">
+                and createtime = #{createtime}
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有数据-->
+    <select id="queryAllData" resultType="cn.liangjies.faka.entity.TUser">
+                select
+          id, groupid, nickname, password, email, qq, mobilephone, money, integral, tag, createtime
+        from faka.t_user
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_user(groupid, nickname, password, email, qq, mobilephone, money, integral, tag, createtime)
+        values (#{groupid}, #{nickname}, #{password}, #{email}, #{qq}, #{mobilephone}, #{money}, #{integral}, #{tag}, #{createtime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_user
+        <set>
+            <if test="groupid != null">
+                groupid = #{groupid},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="mobilephone != null and mobilephone != ''">
+                mobilephone = #{mobilephone},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="integral != null">
+                integral = #{integral},
+            </if>
+            <if test="tag != null and tag != ''">
+                tag = #{tag},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from faka.t_user where id = #{id}
+    </delete>
+
+</mapper>

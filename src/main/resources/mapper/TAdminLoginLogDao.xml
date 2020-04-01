@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TAdminLoginLogDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TAdminLoginLog" id="TAdminLoginLogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="adminid" column="adminid" jdbcType="INTEGER"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="addtime" column="addtime" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insert">
+        insert into faka.t_admin_login_log(id, adminid, ip, addtime)
+        values (#{id}, #{adminid}, #{ip}, #{addtime})
+    </insert>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TAdminLoginLogMap">
+        select
+          id, adminid, ip, addtime
+        from faka.t_admin_login_log
+        ORDER BY id desc
+    </select>
+
+
+
+</mapper>

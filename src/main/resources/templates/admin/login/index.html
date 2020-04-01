@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登录-管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/res/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/res/css/admin/login.css}">
+
+</head>
+
+<body>
+<script th:src="@{/res/jquery/jquery-3.4.1.min.js}"></script>
+<!--登录背景-->
+<div class="video_mask">
+    <img th:src="@{/res/images/admin/bg7.jpg}">
+</div>
+<div class="login">
+    <h1>登录</h1>
+
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
+        </div>
+        <button class="layui-btn login_btn" lay-submit="" id="login" lay-filter="login">登录</button>
+    </form>
+</div>
+<script th:src="@{/res/layui/layui.js}"></script>
+<script>
+    $(function () {
+        $('#login').click(function () {
+            $.ajax({
+                url:"/Admin/login",
+                type:'post',
+                data: $("form").serialize(),
+                dataType:'json',
+                contentType:'application/x-www-form-urlencoded',
+                success:function (data) {
+                    if(data.code==0){
+                        layer.msg(data.msg, { icon: 5 });
+                    }else{
+                        window.location.href="/Admin"
+                    }
+
+                }
+            });
+            return false;
+        });
+    });
+    //一般直接写在一个js文件中
+    layui.use(['layer', 'form'], function(){
+        var layer = layui.layer
+            ,form = layui.form;
+    });
+</script>
+</body>
+
+</html>

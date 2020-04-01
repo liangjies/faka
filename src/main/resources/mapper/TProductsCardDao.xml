@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TProductsCardDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TProductsCard" id="TProductsCardMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="card" column="card" jdbcType="VARCHAR"/>
+        <result property="addtime" column="addtime" jdbcType="INTEGER"/>
+        <result property="active" column="active" jdbcType="INTEGER"/>
+        <result property="isdelete" column="isdelete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TProductsCardMap">
+        select
+          id, pid, card, addtime, active, isdelete
+        from faka.t_products_card
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TProductsCardMap">
+        select
+          id, pid, card, addtime, active, isdelete
+        from faka.t_products_card
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TProductsCardMap">
+        select
+          id, pid, card, addtime, active, isdelete
+        from faka.t_products_card
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="card != null and card != ''">
+                and card = #{card}
+            </if>
+            <if test="addtime != null">
+                and addtime = #{addtime}
+            </if>
+            <if test="active != null">
+                and active = #{active}
+            </if>
+            <if test="isdelete != null">
+                and isdelete = #{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAllData" resultType="cn.liangjies.faka.entity.TProductsCard">
+        select
+          id, pid, card, addtime, active, isdelete
+        from faka.t_products_card
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_products_card(pid, card, addtime, active, isdelete)
+        values (#{pid}, #{card}, #{addtime}, #{active}, #{isdelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_products_card
+        <set>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="card != null and card != ''">
+                card = #{card},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime},
+            </if>
+            <if test="active != null">
+                active = #{active},
+            </if>
+            <if test="isdelete != null">
+                isdelete = #{isdelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from faka.t_products_card where id = #{id}
+    </delete>
+
+</mapper>

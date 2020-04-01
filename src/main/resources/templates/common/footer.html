@@ -1,0 +1,22 @@
+<footer th:fragment="footer">
+<div class="fly-footer">
+    <p>Powered by <a href="https://github.com/zlkbdotnet/zfaka/" target="_blank">ZFAKA <?php echo VERSION;?></a></p>
+</div>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.config({
+        version: "<?php echo VERSION;?>"
+        ,base: '/hyacinth/js/'
+    }).use('common');
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+<!--统计代码-->
+<?php if(isset($config['tongji']) AND strlen($config['tongji'])>0):?>
+<?php echo $config['tongji'];?>
+<?php endif;?>
+<th:block th:if="${not #lists.isEmpty(config['headermenucolor'])}" th:utext="${config['tongji']}" />
+    </body>
+</html>
+</footer>

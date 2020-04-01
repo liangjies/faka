@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TConfigDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TConfig" id="TConfigMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="catid" column="catid" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="value" column="value" jdbcType="VARCHAR"/>
+        <result property="tag" column="tag" jdbcType="VARCHAR"/>
+        <result property="updatetime" column="updatetime" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insert">
+        insert into faka.t_email(id, catid, name, value, tag, updatetime)
+        values (#{mailaddress}, #{mailpassword}, #{sendmail}, #{sendname}, #{port}, #{host}, #{smtpCrypto}, #{isactive}, #{isdelete}, #{protocol})
+    </insert>
+
+    <!--根据参数name查询-->
+    <select id="queryByname" resultMap="TConfigMap">
+        select
+          value
+        from faka.t_config
+        where name = #{name}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TConfigMap">
+        select
+          id, catid, name, value, tag, updatetime
+        from faka.t_config
+        where id = #{id}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultType="cn.liangjies.faka.entity.TConfig">
+        select
+          id, catid, name, value, tag, updatetime
+        from faka.t_config
+    </select>
+
+    <select id="queryConfig" resultType="java.util.Map">
+        select
+          name, value
+        from faka.t_config
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_config
+        <set>
+            <if test="catid != null">
+                catid = #{catid},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+            <if test="tag != null and tag != ''">
+                tag = #{tag},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+</mapper>
