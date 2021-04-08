@@ -115,6 +115,7 @@ public class ShiroConfig {
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
         //过滤链定义，从上向下顺序执行，一般将/**放在最为下边
         filterChainDefinitionMap.put("/Admin", "authc");
+        filterChainDefinitionMap.put("/Admin/**", "authc");
         filterChainDefinitionMap.put("/admin", "authc");
         //filterChainDefinitionMap.put("/**", "authc");
 
