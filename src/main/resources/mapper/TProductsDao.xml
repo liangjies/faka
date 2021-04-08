@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TProductsDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TProducts" id="TProductsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="typeid" column="typeid" jdbcType="INTEGER"/>
+        <result property="active" column="active" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="stockcontrol" column="stockcontrol" jdbcType="INTEGER"/>
+        <result property="qty" column="qty" jdbcType="INTEGER"/>
+        <result property="qtyVirtual" column="qty_virtual" jdbcType="INTEGER"/>
+        <result property="qtySwitch" column="qty_switch" jdbcType="INTEGER"/>
+        <result property="qtySell" column="qty_sell" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="priceOri" column="price_ori" jdbcType="NUMERIC"/>
+        <result property="auto" column="auto" jdbcType="INTEGER"/>
+        <result property="addons" column="addons" jdbcType="VARCHAR"/>
+        <result property="sortNum" column="sort_num" jdbcType="INTEGER"/>
+        <result property="addtime" column="addtime" jdbcType="INTEGER"/>
+        <result property="isdelete" column="isdelete" jdbcType="INTEGER"/>
+        <result property="imgurl" column="imgurl" jdbcType="VARCHAR"/>
+        <result property="iszhekou" column="iszhekou" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!--查询单个-->
+    <select id="queryAllData" resultMap="TProductsMap">
+        select
+          id, typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou
+        from faka.t_products
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TProductsMap">
+        select
+          id, typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou
+        from faka.t_products
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TProductsMap">
+        select
+          id, typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou
+        from faka.t_products
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TProductsMap">
+        select
+          id, typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou
+        from faka.t_products
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="typeid != null">
+                and typeid = #{typeid}
+            </if>
+            <if test="active != null">
+                and active = #{active}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="stockcontrol != null">
+                and stockcontrol = #{stockcontrol}
+            </if>
+            <if test="qty != null">
+                and qty = #{qty}
+            </if>
+            <if test="qtyVirtual != null">
+                and qty_virtual = #{qtyVirtual}
+            </if>
+            <if test="qtySwitch != null">
+                and qty_switch = #{qtySwitch}
+            </if>
+            <if test="qtySell != null">
+                and qty_sell = #{qtySell}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="priceOri != null">
+                and price_ori = #{priceOri}
+            </if>
+            <if test="auto != null">
+                and auto = #{auto}
+            </if>
+            <if test="addons != null and addons != ''">
+                and addons = #{addons}
+            </if>
+            <if test="sortNum != null">
+                and sort_num = #{sortNum}
+            </if>
+            <if test="addtime != null">
+                and addtime = #{addtime}
+            </if>
+            <if test="isdelete != null">
+                and isdelete = #{isdelete}
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                and imgurl = #{imgurl}
+            </if>
+            <if test="iszhekou != null">
+                and iszhekou = #{iszhekou}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByTid" resultType="cn.liangjies.faka.entity.TProducts">
+        select
+        id, typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou
+        from faka.t_products
+        <where>
+        <if test="tid != null">
+            typeid = #{tid}
+        </if>
+        </where>
+    </select>
+
+    <select id="queryActiveData" resultType="cn.liangjies.faka.entity.TProducts">
+        select
+            id, typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou
+        from faka.t_products
+        where active = 1 and isdelete =0
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_products(typeid, active, name, password, description, stockcontrol, qty, qty_virtual, qty_switch, qty_sell, price, price_ori, auto, addons, sort_num, addtime, isdelete, imgurl, iszhekou)
+        values (#{typeid}, #{active}, #{name}, #{password}, #{description}, #{stockcontrol}, #{qty}, #{qtyVirtual}, #{qtySwitch}, #{qtySell}, #{price}, #{priceOri}, #{auto}, #{addons}, #{sortNum}, #{addtime}, #{isdelete}, #{imgurl}, #{iszhekou})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_products
+        <set>
+            <if test="typeid != null">
+                typeid = #{typeid},
+            </if>
+            <if test="active != null">
+                active = #{active},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="stockcontrol != null">
+                stockcontrol = #{stockcontrol},
+            </if>
+            <if test="qty != null">
+                qty = #{qty},
+            </if>
+            <if test="qtyVirtual != null">
+                qty_virtual = #{qtyVirtual},
+            </if>
+            <if test="qtySwitch != null">
+                qty_switch = #{qtySwitch},
+            </if>
+            <if test="qtySell != null">
+                qty_sell = #{qtySell},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="priceOri != null">
+                price_ori = #{priceOri},
+            </if>
+            <if test="auto != null">
+                auto = #{auto},
+            </if>
+            <if test="addons != null and addons != ''">
+                addons = #{addons},
+            </if>
+            <if test="sortNum != null">
+                sort_num = #{sortNum},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime},
+            </if>
+            <if test="isdelete != null">
+                isdelete = #{isdelete},
+            </if>
+            <if test="imgurl != null and imgurl != ''">
+                imgurl = #{imgurl},
+            </if>
+            <if test="iszhekou != null">
+                iszhekou = #{iszhekou},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from faka.t_products where id = #{id}
+    </delete>
+
+</mapper>

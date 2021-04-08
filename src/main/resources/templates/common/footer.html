@@ -1,0 +1,18 @@
+<footer th:fragment="footer">
+<div class="fly-footer">
+    <p>Powered by <a href="https://github.com/liangjies" target="_blank">FAKA</a></p>
+</div>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.config({
+        version: ""
+        ,base: '/hyacinth/js/'
+    }).use('common');
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+<th:block th:if="${not #lists.isEmpty(config['headermenucolor'])}" th:utext="${config['tongji']}" />
+    </body>
+</html>
+</footer>

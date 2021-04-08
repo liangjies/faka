@@ -1,0 +1,157 @@
+<th:block th:include="hyacinth/common/header :: header" />
+<div class="layui-container fly-marginTop">
+    <div class="layui-card layui-form-pane">
+		<div class="layui-card-header layui-hide-xs">查询订单</div>
+		<div class="layui-tab-brief layui-hide-md"><ul class="layui-tab-title"><li class=""><a href="/product/">购买商品</a></li><li class="layui-this">查询订单</li></ul></div>
+        <div class="layui-card-body layui-tab layui-tab-brief" lay-filter="user">
+			<blockquote class="layui-elem-quote">
+				友情提示:订单查询仅能查询最近30天的数据；移动端模式下，仅能查询最近一笔订单。
+			</blockquote>
+            <div class="layui-tab-content">
+
+						<div class="layui-tab layui-tab-brief" lay-filter="">
+							<ul class="layui-tab-title">
+								<li class="layui-this">订单信息</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									<div class="layui-form-pane" id="query-pane">
+									<div class="layui-table-querey layui-hide-xs">
+									<table class="layui-table" id="query-table">
+										<thead>
+											<tr>
+												<th>订单ID</th>
+												<th>订单名称</th>
+												<th>数量</th>
+												<th>金额</th>
+												<th>下单时间</th>
+												<th>状态</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:if="${not #lists.isEmpty(order)}">
+												<td><span id="orderid" th:text="${order.getOrderid()}"></span></td>
+												<td th:text="${order.getProductname()}">
+												</td>
+												<td th:text="${order.getNumber()}">
+
+												</td>
+												<td th:text="${order.getMoney()}">
+												</td>
+												<td th:text="${addtime}">
+												</td>
+												<td>
+												<span class="layui-badge layui-bg-gray" th:if="${order.getStatus()==0}">待付款</span>
+												<span class="layui-badge layui-bg-green" th:if="${order.getStatus()==2}">已完成</span>
+												</td>
+												<td>
+													<button class="layui-btn layui-btn-disabled layui-btn-xs" th:if="${order.getStatus()==0}">未支付订单</button>
+													<button class="view_kami layui-btn layui-btn-warm layui-btn-xs" th:data-orderid="${order.getOrderid()}" th:if="${order.getStatus()==2}">提取卡密</button>
+												</td>
+											</tr>
+											<tr th:if="${#lists.isEmpty(order)}">
+												<td colspan="7" style="text-align:center">无数据</td>
+											</tr>
+										</tbody>
+									</table>
+									</div>
+									
+									<div class="layui-card layui-hide-lg layui-hide-md layui-hide-sm">
+										<div class="layui-card-header">
+											<div th:if="${order.getStatus()==0}">
+											订单信息-<span class="layui-badge layui-bg-gray">待付款</span>
+											<button class="layui-btn layui-btn-disabled layui-btn-xs">未支付订单</button>
+											</div>
+											<div th:if="${order.getStatus()==2}">
+												订单信息-<span class="layui-badge layui-bg-green">已完成</span>
+												<button class="layui-btn view_kami layui-btn-xs layui-btn-warm" id="buy" th:data-orderid="${order.getOrderid()}">提取卡密</button>
+											<div>
+										</div>
+										<div class="layui-card-body" id="prodcut_num">
+											
+												<div class="layui-form-item">
+													<label class="layui-form-label">订单</label>
+													<div class="layui-input-block">
+														<input type="text" th:value="${order.getOrderid()}" readonly disabled class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">商品</label>
+													<div class="layui-input-block">
+														<input type="text" th:value="${order.getProductname()}" readonly disabled class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">数量</label>
+													<div class="layui-input-block">
+														<input type="text" th:value="${order.getNumber()}" readonly disabled class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">金额</label>
+													<div class="layui-input-block">
+														<input type="text" th:value="${order.getMoney()}" readonly disabled class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">时间</label>
+													<div class="layui-input-block">
+														<input type="text" th:value="${addtime}" readonly disabled class="layui-input" >
+													</div>
+												</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div> 
+					
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- auto tpl-->
+<!--引入公共底文件-->
+<script src="/res/js/clipboard.min.js"></script>
+<th:block  th:include="hyacinth/common/footer :: footer" />
+<script>
+layui.use('productquery');
+	function converStatus(status){
+		var str = "";
+		var s = status;
+		switch(s)
+		{
+			case '0':
+				str = '<span class="layui-badge layui-bg-gray">待付款</span>';
+				break;
+			case '1':
+				str = '<span class="layui-badge layui-bg-blue">待处理</span>';
+				break;
+			case '2':
+				str = '<span class="layui-badge layui-bg-green">已完成</span>';
+				break;
+			default:
+				str = '<span class="layui-badge layui-bg-black">处理失败</span>';
+				break;
+		}
+		return str;
+	}
+    function createTime(v) {
+       var date = new Date();
+       date.setTime(parseInt(v) * 1000);
+		var y = date.getFullYear();
+		var m = date.getMonth() + 1;
+		m = m < 10 ? '0' + m : m;
+		var d = date.getDate();
+		d = d < 10 ? ("0" + d) : d;
+		var h = date.getHours();
+		h = h < 10 ? ("0" + h) : h;
+		var M = date.getMinutes();
+		M = M < 10 ? ("0" + M) : M;
+		var s = date.getSeconds();
+		s = s < 10 ? ("0" + s) : s;
+		var str = y + "-" + m + "-" + d + " " + h + ":" + M + ":" + s;
+		return str;
+	}
+</script>

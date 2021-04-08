@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TEmailQueueDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TEmailQueue" id="TEmailQueueMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="subject" column="subject" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="addtime" column="addtime" jdbcType="INTEGER"/>
+        <result property="sendtime" column="sendtime" jdbcType="INTEGER"/>
+        <result property="sendresult" column="sendresult" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="isdelete" column="isdelete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TEmailQueueMap">
+        select
+          id, email, subject, content, addtime, sendtime, sendresult, status, isdelete
+        from faka.t_email_queue
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TEmailQueueMap">
+        select
+          id, email, subject, content, addtime, sendtime, sendresult, status, isdelete
+        from faka.t_email_queue
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TEmailQueueMap">
+        select
+          id, email, subject, content, addtime, sendtime, sendresult, status, isdelete
+        from faka.t_email_queue
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="subject != null and subject != ''">
+                and subject = #{subject}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="addtime != null">
+                and addtime = #{addtime}
+            </if>
+            <if test="sendtime != null">
+                and sendtime = #{sendtime}
+            </if>
+            <if test="sendresult != null and sendresult != ''">
+                and sendresult = #{sendresult}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="isdelete != null">
+                and isdelete = #{isdelete}
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有数据-->
+    <select id="queryAllData" resultType="cn.liangjies.faka.entity.TEmailQueue">
+        select
+          id, email, subject, content, addtime, sendtime, sendresult, status, isdelete
+        from faka.t_email_queue
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_email_queue(email, subject, content, addtime, sendtime, sendresult, status, isdelete)
+        values (#{email}, #{subject}, #{content}, #{addtime}, #{sendtime}, #{sendresult}, #{status}, #{isdelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_email_queue
+        <set>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="subject != null and subject != ''">
+                subject = #{subject},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime},
+            </if>
+            <if test="sendtime != null">
+                sendtime = #{sendtime},
+            </if>
+            <if test="sendresult != null and sendresult != ''">
+                sendresult = #{sendresult},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="isdelete != null">
+                isdelete = #{isdelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from faka.t_email_queue where id = #{id}
+    </delete>
+
+</mapper>

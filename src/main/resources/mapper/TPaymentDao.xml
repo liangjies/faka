@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TPaymentDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TPayment" id="TPaymentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="payment" column="payment" jdbcType="VARCHAR"/>
+        <result property="payname" column="payname" jdbcType="VARCHAR"/>
+        <result property="payimage" column="payimage" jdbcType="VARCHAR"/>
+        <result property="alias" column="alias" jdbcType="VARCHAR"/>
+        <result property="signType" column="sign_type" jdbcType="VARCHAR"/>
+        <result property="appId" column="app_id" jdbcType="VARCHAR"/>
+        <result property="appSecret" column="app_secret" jdbcType="VARCHAR"/>
+        <result property="aliPublicKey" column="ali_public_key" jdbcType="VARCHAR"/>
+        <result property="rsaPrivateKey" column="rsa_private_key" jdbcType="VARCHAR"/>
+        <result property="configure3" column="configure3" jdbcType="VARCHAR"/>
+        <result property="configure4" column="configure4" jdbcType="VARCHAR"/>
+        <result property="overtime" column="overtime" jdbcType="INTEGER"/>
+        <result property="active" column="active" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TPaymentMap">
+        select id,
+               payment,
+               payname,
+               payimage,
+               alias,
+               sign_type,
+               app_id,
+               app_secret,
+               ali_public_key,
+               rsa_private_key,
+               configure3,
+               configure4,
+               overtime,
+               active
+        from faka.t_payment
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TPaymentMap">
+        select id,
+               payment,
+               payname,
+               payimage,
+               alias,
+               sign_type,
+               app_id,
+               app_secret,
+               ali_public_key,
+               rsa_private_key,
+               configure3,
+               configure4,
+               overtime,
+               active
+        from faka.t_payment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TPaymentMap">
+        select
+        id, payment, payname, payimage, alias, sign_type, app_id, app_secret, ali_public_key, rsa_private_key,
+        configure3, configure4, overtime, active
+        from faka.t_payment
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="payment != null and payment != ''">
+                and payment = #{payment}
+            </if>
+            <if test="payname != null and payname != ''">
+                and payname = #{payname}
+            </if>
+            <if test="payimage != null and payimage != ''">
+                and payimage = #{payimage}
+            </if>
+            <if test="alias != null and alias != ''">
+                and alias = #{alias}
+            </if>
+            <if test="signType != null and signType != ''">
+                and sign_type = #{signType}
+            </if>
+            <if test="appId != null and appId != ''">
+                and app_id = #{appId}
+            </if>
+            <if test="appSecret != null and appSecret != ''">
+                and app_secret = #{appSecret}
+            </if>
+            <if test="aliPublicKey != null and aliPublicKey != ''">
+                and ali_public_key = #{aliPublicKey}
+            </if>
+            <if test="rsaPrivateKey != null and rsaPrivateKey != ''">
+                and rsa_private_key = #{rsaPrivateKey}
+            </if>
+            <if test="configure3 != null and configure3 != ''">
+                and configure3 = #{configure3}
+            </if>
+            <if test="configure4 != null and configure4 != ''">
+                and configure4 = #{configure4}
+            </if>
+            <if test="overtime != null">
+                and overtime = #{overtime}
+            </if>
+            <if test="active != null">
+                and active = #{active}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllData" resultType="cn.liangjies.faka.entity.TPayment">
+        select
+            id, payment, payname, payimage, alias, sign_type, app_id, app_secret, ali_public_key, rsa_private_key,
+            configure3, configure4, overtime, active
+        from faka.t_payment
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_payment(payment, payname, payimage, alias, sign_type, app_id, app_secret, ali_public_key,
+                                   rsa_private_key, configure3, configure4, overtime, active)
+        values (#{payment}, #{payname}, #{payimage}, #{alias}, #{signType}, #{appId}, #{appSecret}, #{aliPublicKey},
+                #{rsaPrivateKey}, #{configure3}, #{configure4}, #{overtime}, #{active})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_payment(payment, payname, payimage, alias, sign_type, app_id, app_secret, ali_public_key,
+        rsa_private_key, configure3, configure4, overtime, active)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.payment}, #{entity.payname}, #{entity.payimage}, #{entity.alias}, #{entity.signType},
+            #{entity.appId}, #{entity.appSecret}, #{entity.aliPublicKey}, #{entity.rsaPrivateKey}, #{entity.configure3},
+            #{entity.configure4}, #{entity.overtime}, #{entity.active})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_payment(payment, payname, payimage, alias, sign_type, app_id, app_secret, ali_public_key,
+        rsa_private_key, configure3, configure4, overtime, active)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.payment}, #{entity.payname}, #{entity.payimage}, #{entity.alias}, #{entity.signType},
+            #{entity.appId}, #{entity.appSecret}, #{entity.aliPublicKey}, #{entity.rsaPrivateKey}, #{entity.configure3},
+            #{entity.configure4}, #{entity.overtime}, #{entity.active})
+        </foreach>
+        on duplicate key update
+        payment = values(payment) , payname = values(payname) , payimage = values(payimage) , alias = values(alias) ,
+        sign_type = values(sign_type) , app_id = values(app_id) , app_secret = values(app_secret) , ali_public_key =
+        values(ali_public_key) , rsa_private_key = values(rsa_private_key) , configure3 = values(configure3) ,
+        configure4 = values(configure4) , overtime = values(overtime) , active = values(active)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_payment
+        <set>
+            <if test="payment != null and payment != ''">
+                payment = #{payment},
+            </if>
+            <if test="payname != null and payname != ''">
+                payname = #{payname},
+            </if>
+            <if test="payimage != null and payimage != ''">
+                payimage = #{payimage},
+            </if>
+            <if test="alias != null and alias != ''">
+                alias = #{alias},
+            </if>
+            <if test="signType != null and signType != ''">
+                sign_type = #{signType},
+            </if>
+            <if test="appId != null and appId != ''">
+                app_id = #{appId},
+            </if>
+            <if test="appSecret != null and appSecret != ''">
+                app_secret = #{appSecret},
+            </if>
+            <if test="aliPublicKey != null and aliPublicKey != ''">
+                ali_public_key = #{aliPublicKey},
+            </if>
+            <if test="rsaPrivateKey != null and rsaPrivateKey != ''">
+                rsa_private_key = #{rsaPrivateKey},
+            </if>
+            <if test="configure3 != null and configure3 != ''">
+                configure3 = #{configure3},
+            </if>
+            <if test="configure4 != null and configure4 != ''">
+                configure4 = #{configure4},
+            </if>
+            <if test="overtime != null">
+                overtime = #{overtime},
+            </if>
+            <if test="active != null">
+                active = #{active},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from faka.t_payment
+        where id = #{id}
+    </delete>
+
+</mapper>

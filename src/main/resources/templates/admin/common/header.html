@@ -1,0 +1,113 @@
+<header th:fragment="header">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="FAKA,发卡平台,发卡系统">
+    <meta name="author" content="">
+    <meta name="version" th:content="${version}">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/res/layui/css/layui.css">
+    <link rel="stylesheet" href="/res/css/global.css">
+    <link rel="shortcut icon"
+          th:href="${#lists.isEmpty(config['shortcuticon'])} ? '/favicon.ico' : ${config['shortcuticon']}"/>
+</head>
+
+<body>
+<div th:class="${#lists.isEmpty(config['headermenucolor'])} ? 'fly-header layui-bg-black' : @{'fly-header ' + ${config['headermenucolor']}}">
+    <div class="layui-container">
+        <div class="layui-hide-xs"><a class="fly-logo" href="/Admin"><img
+                th:src="${#lists.isEmpty(config['logo'])} ? '/res/images/logo.png' : ${config['logo']}" alt="faka"></a>
+        </div>
+        <ul class="layui-nav fly-nav" id="webmenu">
+            <li class="layui-nav-item layui-hide-lg layui-hide-md layui-hide-sm layadmin-flexible">
+                <a href="javascript:;" title="侧边伸缩">
+                    <i class="layui-icon layui-icon-spread-left" id="main-menu-mobile-switch"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/Admin/">账户中心</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/Admin/setting">设置中心</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/Admin/user">用户管理</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/Admin/products">商品管理</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/Admin/order">订单管理</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/Admin/report">统计报表</a>
+            </li>
+        </ul>
+        <ul class="layui-nav fly-nav-user">
+            <li class="layui-nav-item">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs" th:text="${AdminUser}">
+                    </cite>
+                    <i class="iconfont icon-renzheng layui-hide-xs" th:title="${AdminUser}"></i>
+                    <img src="/res/images/avatar/0.jpg">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/Admin/profiles/"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                    <dd><a href="/Admin/logger"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的日志</a></dd>
+                    <dd><a href="/Admin/"><i class="layui-icon"
+                                             style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+                    <hr style="margin: 5px 0;">
+                    <dd><a href="/Admin/logout/" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    function setClassName() {
+        var menuChild = document.getElementById('webmenu').childNodes,
+            aName = window.location.pathname,
+            aMenu = [];
+        for (var i = 0, j = menuChild.length; i < j; i++) {
+            if (menuChild[i].nodeType != 3) {
+                aMenu.push(menuChild[i]);
+            }
+        }
+        if (aName.indexOf('/Admin/report') > -1) {
+            aMenu[6].className += ' layui-this';
+        } else if (aName.indexOf('/Admin/order') > -1 || aName.indexOf('/Admin/emailqueue') > -1) {
+            aMenu[5].className += ' layui-this';
+        } else if (aName.indexOf('/Admin/products') > -1) {
+            aMenu[4].className += ' layui-this';
+        } else if (aName.indexOf('/Admin/user') > -1) {
+            aMenu[3].className += ' layui-this';
+        } else if (aName.indexOf('/Admin/setting') > -1 || aName.indexOf('/Admin/email') > -1 || aName.indexOf('/Admin/payment') > -1) {
+            aMenu[2].className += ' layui-this';
+        } else if (aName.indexOf('/Admin') > -1) {
+            aMenu[1].className += ' layui-this';
+        }
+    }
+
+    setClassName();
+</script>
+
+<ul class="layui-nav layui-nav-tree layui-inline" lay-filter="main-menu" id="main-menu-mobile"
+    style="display: none;z-index: 19891016;width: 300px;">
+    <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">主菜单</a>
+        <dl class="layui-nav-child">
+            <dd><a href="/Admin/">账户中心</a></dd>
+            <dd><a href="/Admin/setting">设置中心</a></dd>
+            <dd><a href="/Admin/user">用户管理</a></dd>
+            <dd><a href="/Admin/products">商品管理</a></dd>
+            <dd><a href="/Admin/order">订单管理</a></dd>
+            <dd><a href="/Admin/report">统计报表</a></dd>
+        </dl>
+    </li>
+</ul>
+</header>

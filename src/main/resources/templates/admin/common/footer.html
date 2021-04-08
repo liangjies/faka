@@ -1,0 +1,18 @@
+<footer th:fragment="footer">
+    <div class="fly-footer">
+        <p>Powered by <a href="https://github.com/liangjies" target="_blank">FAKA <th:block th:text="${version}" /></a></p>
+    </div>
+    <script src="/res/layui/layui.js"></script>
+    <script  th:inline="javascript">
+        layui.config({
+            version: [[${version}]],
+            base: '/res/mods/'
+        }).use('common');
+        layui.use('element', function() {
+            var element = layui.element;
+        });
+    </script>
+    </body>
+
+    </html>
+</footer>

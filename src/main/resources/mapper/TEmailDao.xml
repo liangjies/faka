@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liangjies.faka.dao.TEmailDao">
+
+    <resultMap type="cn.liangjies.faka.entity.TEmail" id="TEmailMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="mailaddress" column="mailaddress" jdbcType="VARCHAR"/>
+        <result property="mailpassword" column="mailpassword" jdbcType="VARCHAR"/>
+        <result property="sendmail" column="sendmail" jdbcType="VARCHAR"/>
+        <result property="sendname" column="sendname" jdbcType="VARCHAR"/>
+        <result property="port" column="port" jdbcType="VARCHAR"/>
+        <result property="host" column="host" jdbcType="VARCHAR"/>
+        <result property="smtpCrypto" column="smtp_crypto" jdbcType="INTEGER"/>
+        <result property="isactive" column="isactive" jdbcType="INTEGER"/>
+        <result property="isdelete" column="isdelete" jdbcType="INTEGER"/>
+        <result property="protocol" column="protocol" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TEmailMap">
+        select
+          id, mailaddress, mailpassword, sendmail, sendname, port, host, smtp_crypto, isactive, isdelete, protocol
+        from faka.t_email
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TEmailMap">
+        select
+          id, mailaddress, mailpassword, sendmail, sendname, port, host, smtp_crypto, isactive, isdelete, protocol
+        from faka.t_email
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TEmailMap">
+        select
+          id, mailaddress, mailpassword, sendmail, sendname, port, host, smtp_crypto, isactive, isdelete, protocol
+        from faka.t_email
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into faka.t_email(mailaddress, mailpassword, sendmail, sendname, port, host, smtp_crypto, isactive, isdelete, protocol)
+        values (#{mailaddress}, #{mailpassword}, #{sendmail}, #{sendname}, #{port}, #{host}, #{smtpCrypto}, #{isactive}, #{isdelete}, #{protocol})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update faka.t_email
+        <set>
+            <if test="mailaddress != null and mailaddress != ''">
+                mailaddress = #{mailaddress},
+            </if>
+            <if test="mailpassword != null and mailpassword != ''">
+                mailpassword = #{mailpassword},
+            </if>
+            <if test="sendmail != null and sendmail != ''">
+                sendmail = #{sendmail},
+            </if>
+            <if test="sendname != null and sendname != ''">
+                sendname = #{sendname},
+            </if>
+            <if test="port != null and port != ''">
+                port = #{port},
+            </if>
+            <if test="host != null and host != ''">
+                host = #{host},
+            </if>
+            <if test="smtpCrypto != null">
+                smtp_crypto = #{smtpCrypto},
+            </if>
+            <if test="isactive != null">
+                isactive = #{isactive},
+            </if>
+            <if test="isdelete != null">
+                isdelete = #{isdelete},
+            </if>
+            <if test="protocol != null and protocol != ''">
+                protocol = #{protocol},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from faka.t_email where id = #{id}
+    </delete>
+
+</mapper>

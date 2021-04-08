@@ -1,0 +1,134 @@
+<header th:fragment="header">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:style="${not #lists.isEmpty(config['backgroundimage'])}?'background-size: cover; background-image:url('+ ${config['backgroundimage']} +')'">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${config['webname']}"></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="发卡平台,发卡系统">
+    <meta name="author" content="">
+    <meta name="version" th:content="${version}">
+    <meta name="description" th:content="${config['webdescription']}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/hyacinth/css/style.css}">
+    <link rel="shortcut icon" th:href="${#lists.isEmpty(config['shortcuticon'])} ? '/favicon.ico' : ${config['shortcuticon']}"/>
+</head>
+
+<body id="zlkbbody">
+<div th:class="${#lists.isEmpty(config['headermenucolor'])} ? 'fly-header layui-bg-black' : @{'fly-header ' + ${config['headermenucolor']}}">
+    <div class="layui-container">
+        <div class=""><a class="fly-logo" href="/"><img th:src="${#lists.isEmpty(config['logo'])} ? '/images/logo.png' : ${config['logo']}" alt="faka"></a></div>
+        <ul class="layui-nav fly-nav" id="webmenu">
+            <li></li>
+            <?php if($login):?>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/member">我的账户</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/product">购买商品</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/member/help">帮助中心</a>
+            </li>
+            <?php else:?>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/product">购买商品</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/product/query">查询订单</a>
+            </li>
+            <?php endif;?>
+        </ul>
+
+        <ul class="layui-nav fly-nav-user">
+            <li class="layui-nav-item layui-hide-lg layui-hide-md layui-hide-sm layadmin-flexible">
+                <a href="javascript:;" title="侧边伸缩">
+                    <i class="layui-icon layui-icon-spread-left" id="main-menu-mobile-switch" style="font-size: 16px;"></i>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav fly-nav-user layui-hide-xs">
+            <?php if($login):?>
+            <li class="layui-nav-item">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs">
+                        <?php echo $uinfo['nickname'];?>
+                    </cite>
+                    <i class="iconfont icon-renzheng layui-hide-xs" title="<?php echo $uinfo['nickname'];?>"></i>
+                    <i class="layui-badge fly-badge-vip layui-hide-xs"><?php echo $uinfo['groupName'];?></i>
+                    <img src="/images/avatar/0.jpg">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/member/profiles/">基本设置</a></dd>
+                    <dd><a href="/member/logger">我的日志</a></dd>
+                    <dd><a href="/member/">我的主页</a></dd>
+                    <hr style="margin: 5px 0;">
+                    <dd><a href="/member/logout/" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+            <?php else:?>
+            <div th:if="${config['loginswitch']}>0">
+            <!-- 未登录的状态 -->
+            <li class="layui-nav-item">
+                <a class="iconfont icon-touxiang layui-hide-xs" href="/member/login/"></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/member/login/">登录</a>
+            </li>
+            </div>
+             <li class="layui-nav-item" th:if="${config['registerswitch']}>0">
+                <a href="/member/register/">注册</a>
+             </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    function setClassName() {
+        var menuChild = document.getElementById('webmenu').childNodes,
+            aName = window.location.pathname,
+            aMenu = [];
+        for (var i = 0, j = menuChild.length; i < j; i++) {
+            if (menuChild[i].nodeType != 3) {
+                aMenu.push(menuChild[i]);
+            }
+        }
+    <?php if($login):?>
+        if (aName.indexOf('/member') == 0) {
+            aMenu[1].className += ' layui-this';
+        } else if (aName.indexOf('/product') > -1 || aName.indexOf('/group') > -1) {
+            aMenu[2].className += ' layui-this';
+        } else if (aName.indexOf('/member/help') > -1) {
+            aMenu[3].className += ' layui-this';
+        }
+    <?php else:?>
+        if (aName.indexOf('/product/query') > -1) {
+            aMenu[2].className += ' layui-this';
+        } else if (aName.indexOf('/product') > -1 || aName.indexOf('/group') > -1) {
+            aMenu[1].className += ' layui-this';
+        }
+    <?php endif;?>
+    }
+    setClassName();
+</script>
+<ul class="layui-nav layui-nav-tree layui-inline" lay-filter="main-menu" id="main-menu-mobile" style="display: none;z-index: 19891016;width: 300px;">
+    <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">主菜单</a>
+        <dl class="layui-nav-child">
+            <?php if($login):?>
+            <dd><a href="/member/">我的账户</a></dd>
+            <dd><a href="/product">购买商品</a></dd>
+            <dd><a href="/member/help">帮助中心</a></dd>
+            <dd><a href="/member/logout/">退出</a></dd>
+            <?php else:?>
+            <dd><a href="/product/">购买商品</a></dd>
+            <dd><a href="/product/query">查询订单</a></dd>
+            <dd><a href="/member/login/" th:if="${config['loginswitch']}>0">登录</a></dd>
+            <dd><a href="/member/register/" th:if="${config['registerswitch']}>0">注册</a></dd>
+        </dl>
+    </li>
+</ul>
+<div class="site-mobile-shade"></div>
+</header>
